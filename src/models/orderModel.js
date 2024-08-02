@@ -120,13 +120,51 @@ exports.getOrderById = async (orderId) => {
 };
 
 exports.updateOrder = async (orderId, orderData) => {
+    const { soldToID, billToID, shipToID } = orderData;
+
+    // Fetch person information from the contact service
+    const [soldTo, billTo, shipTo] = await Promise.all([
+        getPersonInfo(soldToID),
+        getPersonInfo(billToID),
+        getPersonInfo(shipToID)
+    ]);
     return prisma.order.update({
         where: { id: orderId },
         data: {
-            ...orderData,
+            orderDate: new Date(orderData.orderDate),
+            orderValue: orderData.orderValue,
+            taxValue: orderData.taxValue,
+            currencyCode: orderData.currencyCode,
             items: {
                 deleteMany: {},
                 create: orderData.items,
+            },
+            soldTo: {
+                connectOrCreate: {
+                    where: { id: soldToID },
+                    create: {
+                        id: soldToID,
+                        ...soldTo,
+                    },
+                },
+            },
+            billTo: {
+                connectOrCreate: {
+                    where: { id: billToID },
+                    create: {
+                        id: billToID,
+                        ...billTo,
+                    },
+                },
+            },
+            shipTo: {
+                connectOrCreate: {
+                    where: { id: shipToID },
+                    create: {
+                        id: shipToID,
+                        ...shipTo,
+                    },
+                },
             },
         },
         include: {

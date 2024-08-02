@@ -12,7 +12,6 @@ const OrderItemSchema = z.object({
 const OrderInputSchema = z.object({
     orderDate: z.string().refine((date) => {
         const parsedDate = new Date(date);
-        console.log(parsedDate);
         return !isNaN(parsedDate.getTime());
     }, {
         message: "Invalid date format. Expected a valid date string.",
@@ -26,6 +25,8 @@ const OrderInputSchema = z.object({
     items: z.array(OrderItemSchema),
 });
 
+const OrderPatchSchema = OrderInputSchema.partial();
+
 exports.getOrders = async (req, res) => {
     try {
         const orders = await orderModel.getOrders();
@@ -38,12 +39,9 @@ exports.getOrders = async (req, res) => {
 exports.createOrder = async (req, res) => {
     try {
         // Validate input data
-        // console.log(req.body);
         const validatedData = OrderInputSchema.parse(req.body);
-        // console.log("-----------------");
         // Convert the orderDate string to a Date object
         validatedData.orderDate = new Date(validatedData.orderDate);
-        // console.log(validatedData);
         const order = await orderModel.createOrder(validatedData);
         res.status(201).json(order);
     } catch (error) {
@@ -81,7 +79,8 @@ exports.getOrderById = async (req, res) => {
 
 exports.updateOrder = async (req, res) => {
     try {
-        const order = await orderModel.updateOrder(req.params.orderID, req.body);
+        const validatedData = OrderInputSchema.parse(req.body);
+        const order = await orderModel.updateOrder(req.params.orderID, validatedData);
         if (order) {
             res.json(order);
         } else {
@@ -107,6 +106,7 @@ exports.deleteOrderById = async (req, res) => {
 
 exports.patchOrder = async (req, res) => {
     try {
+        const validatedData = OrderPatchSchema.parse(req.body);
         const order = await orderModel.patchOrder(req.params.orderID, req.body);
         if (order) {
             res.json(order);
