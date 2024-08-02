@@ -131,7 +131,7 @@ exports.updateOrder = async (orderId, orderData) => {
     return prisma.order.update({
         where: { id: orderId },
         data: {
-            orderDate: new Date(orderData.orderDate),
+            orderDate: orderData.orderDate,
             orderValue: orderData.orderValue,
             taxValue: orderData.taxValue,
             currencyCode: orderData.currencyCode,
@@ -181,10 +181,34 @@ exports.deleteOrderById = async (orderId) => {
     return prisma.order.delete({ where: { id: orderId } });
 };
 
-exports.patchOrder = async (orderId, orderData) => {
-    return prisma.order.update({
+exports.patchOrder = async (orderId, updateData) => {
+    if (updateData.items) {
+        updateData.items = {
+            deleteMany: {},
+            create: updateData.items,
+        };
+    }
+
+    // Handle person updates if IDs are provided
+    for (const field of ['soldTo', 'billTo', 'shipTo']) {
+        const idField = `${field}ID`;
+        if (updateData[idField]) {
+            const personInfo = await getPersonInfo(updateData[idField]);
+            updateData[field] = {
+                connectOrCreate: {
+                    where: { id: updateData[idField] },
+                    create: {
+                        id: updateData[idField],
+                        ...personInfo,
+                    },
+                },
+            };
+            delete updateData[idField];
+        }
+    }
+    const patchedOrder = await prisma.order.update({
         where: { id: orderId },
-        data: orderData,
+        data: updateData,
         include: {
             items: true,
             soldTo: true,
@@ -192,4 +216,6 @@ exports.patchOrder = async (orderId, orderData) => {
             shipTo: true,
         },
     });
+
+    return patchedOrder;
 };

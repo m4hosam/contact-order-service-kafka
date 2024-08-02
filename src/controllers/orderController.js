@@ -80,6 +80,7 @@ exports.getOrderById = async (req, res) => {
 exports.updateOrder = async (req, res) => {
     try {
         const validatedData = OrderInputSchema.parse(req.body);
+        validatedData.orderDate = new Date(validatedData.orderDate);
         const order = await orderModel.updateOrder(req.params.orderID, validatedData);
         if (order) {
             res.json(order);
@@ -107,7 +108,10 @@ exports.deleteOrderById = async (req, res) => {
 exports.patchOrder = async (req, res) => {
     try {
         const validatedData = OrderPatchSchema.parse(req.body);
-        const order = await orderModel.patchOrder(req.params.orderID, req.body);
+        if (validatedData.orderDate) {
+            validatedData.orderDate = new Date(validatedData.orderDate);
+        }
+        const order = await orderModel.patchOrder(req.params.orderID, validatedData);
         if (order) {
             res.json(order);
         } else {
