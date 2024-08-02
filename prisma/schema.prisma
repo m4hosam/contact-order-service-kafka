@@ -1,0 +1,48 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Order {
+    id           String      @id @default(uuid())
+    orderDate    DateTime
+    soldToID     String
+    billToID     String
+    shipToID     String
+    orderValue   Float
+    taxValue     Float
+    currencyCode String
+    items        OrderItem[]
+    soldTo       Person      @relation("SoldToOrders", fields: [soldToID], references: [id])
+    billTo       Person      @relation("BillToOrders", fields: [billToID], references: [id])
+    shipTo       Person      @relation("ShipToOrders", fields: [shipToID], references: [id])
+}
+
+model OrderItem {
+    id        String @id @default(uuid())
+    itemID    String
+    productID String
+    quantity  Float
+    itemPrice Float
+    order     Order  @relation(fields: [orderId], references: [id])
+    orderId   String
+}
+
+model Person {
+    id              String  @id @default(uuid())
+    city            String
+    country         String
+    extensionFields Json?
+    firstName       String
+    lastName        String
+    houseNumber     String
+    streetAddress   String
+    zip             String
+    soldToOrders    Order[] @relation("SoldToOrders")
+    billToOrders    Order[] @relation("BillToOrders")
+    shipToOrders    Order[] @relation("ShipToOrders")
+}
