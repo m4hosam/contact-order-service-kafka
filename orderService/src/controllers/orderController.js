@@ -1,6 +1,7 @@
 // src/controllers/orderController.js
 const orderModel = require('../models/orderModel');
 const { z } = require('zod');
+const { sendEvent } = require('../kafka/kafkaProducer');
 
 const OrderItemSchema = z.object({
     itemID: z.string(),
@@ -43,6 +44,11 @@ exports.createOrder = async (req, res) => {
         // Convert the orderDate string to a Date object
         validatedData.orderDate = new Date(validatedData.orderDate);
         const order = await orderModel.createOrder(validatedData);
+        // Publishing order created event to Kafka 
+        // const itemIds = order.items.map(item => item.id);
+        order.sourceURL = req.protocol + '://' + req.get('host') + req.originalUrl;
+        await sendEvent('order.created', order);
+
         res.status(201).json(order);
     } catch (error) {
         if (error.message.includes('Validation error')) {
@@ -82,6 +88,12 @@ exports.updateOrder = async (req, res) => {
         const validatedData = OrderInputSchema.parse(req.body);
         validatedData.orderDate = new Date(validatedData.orderDate);
         const order = await orderModel.updateOrder(req.params.orderID, validatedData);
+
+        // Publishing order updated event to Kafka
+        // const itemIds = order.items.map(item => item.id);
+        order.sourceURL = req.protocol + '://' + req.get('host') + req.originalUrl;
+        await sendEvent('order.updated', order);
+
         if (order) {
             res.json(order);
         } else {
@@ -94,15 +106,20 @@ exports.updateOrder = async (req, res) => {
 
 exports.deleteOrderById = async (req, res) => {
     try {
-        const deleted = await orderModel.deleteOrderById(req.params.orderID);
-        if (deleted) {
+        const deletedOrder = await orderModel.deleteOrderById(req.params.orderID);
+        await sendEvent('order.deleted', deletedOrder);
+        if (deletedOrder) {
             res.status(204).send();
         } else {
             res.status(404).json({ error: 'Order not found' });
         }
     } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+        if (error.message.includes('Order with id')) {
+            res.status(404).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: error.message });
+        }
+    };
 };
 
 exports.patchOrder = async (req, res) => {
@@ -112,6 +129,12 @@ exports.patchOrder = async (req, res) => {
             validatedData.orderDate = new Date(validatedData.orderDate);
         }
         const order = await orderModel.patchOrder(req.params.orderID, validatedData);
+
+        // Publishing order updated event to Kafka
+        // const itemIds = order.items.map(item => item.id);
+        order.sourceURL = req.protocol + '://' + req.get('host') + req.originalUrl;
+        await sendEvent('order.updated', order);
+
         if (order) {
             res.json(order);
         } else {

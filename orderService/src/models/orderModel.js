@@ -1,10 +1,11 @@
 // src/models/orderModel.js
 const { PrismaClient } = require('@prisma/client');
 const axios = require('axios');
+// const { sendEvent } = require('../kafka/kafkaProducer');
 
 const prisma = new PrismaClient();
 
-const CONTACT_SERVICE_URL = 'http://localhost:8080/api/v1/person';
+const CONTACT_SERVICE_URL = process.env.CONTACT_SERVICE_URL || 'http://localhost:8080/api/v1/persons';
 
 
 
@@ -91,7 +92,8 @@ exports.createOrder = async (orderData) => {
                 shipToID: false,
             },
         });
-
+        // // publish event to kafka
+        // await sendEvent('order.created', order);
         return order;
     } catch (error) {
         console.error('Error creating order:', error);
@@ -128,7 +130,8 @@ exports.updateOrder = async (orderId, orderData) => {
         getPersonInfo(billToID),
         getPersonInfo(shipToID)
     ]);
-    return prisma.order.update({
+
+    const updatedOrder = prisma.order.update({
         where: { id: orderId },
         data: {
             orderDate: orderData.orderDate,
@@ -174,11 +177,31 @@ exports.updateOrder = async (orderId, orderData) => {
             shipTo: true,
         },
     });
+
+    // publish modified event to kafka 
+    // await sendEvent('order.updated', updatedOrder);
+
+    return updatedOrder;
 };
 
 exports.deleteOrderById = async (orderId) => {
+    // Retrieve the order and its items before deletion
+    const orderToDelete = await prisma.order.findUnique({
+        where: { id: orderId },
+        include: { items: true }
+    });
+    if (!orderToDelete) {
+        throw new Error(`Order with id ${orderId} not found`);
+    }
+    // Delete the order and its items
     await prisma.orderItem.deleteMany({ where: { orderId } });
-    return prisma.order.delete({ where: { id: orderId } });
+    const deletedOrder = await prisma.order.delete({ where: { id: orderId } });
+    if (!deletedOrder) {
+        throw new Error(`Failed to delete order with id ${orderId}`);
+    }
+    // Send event
+    // await sendEvent('order.deleted', { id: orderId });
+    return orderToDelete;
 };
 
 exports.patchOrder = async (orderId, updateData) => {
@@ -217,5 +240,7 @@ exports.patchOrder = async (orderId, updateData) => {
         },
     });
 
+    // publish modified event to kafka 
+    // await sendEvent('order.updated', patchedOrder);
     return patchedOrder;
 };

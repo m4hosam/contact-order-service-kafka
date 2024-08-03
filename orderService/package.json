@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +16,7 @@
     "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "kafka-node": "^5.0.0",
-    "mongoose": "^8.5.2",
+    "kafkajs": "^2.2.4",
     "prisma": "^5.17.0",
     "uuid": "^10.0.0",
     "zod": "^3.23.8"
