@@ -1,24 +1,10 @@
 // src/models/orderModel.js
 const { PrismaClient } = require('@prisma/client');
-const axios = require('axios');
+const { getPersonInfo } = require('./getPersonFromContact');
 // const { sendEvent } = require('../kafka/kafkaProducer');
 
 const prisma = new PrismaClient();
 
-const CONTACT_SERVICE_URL = process.env.CONTACT_SERVICE_URL || 'http://localhost:8080/api/v1/persons';
-
-
-
-
-async function getPersonInfo(personId) {
-    try {
-        const response = await axios.get(`${CONTACT_SERVICE_URL}/${personId}`);
-        return response.data;
-    } catch (error) {
-        console.error(`Error fetching person info for ID ${personId}:`, error.message);
-        throw new Error(`Failed to fetch person info for ID ${personId}`);
-    }
-}
 
 exports.getOrders = async () => {
     return prisma.order.findMany({
