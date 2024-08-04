@@ -3,6 +3,9 @@ cd /opt/bitnami/kafka/bin
 
 ./kafka-topics.sh --list --bootstrap-server kafka:9092
 
+./kafka-console-consumer.sh --bootstrap-server kafka:9092 --whitelist 'personevents-created|personevents-changed|personevents-deleted' --from-be
+ginning
+
 ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic personevents-created --from-beginning
 
 ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic personevents-changed --from-beginning

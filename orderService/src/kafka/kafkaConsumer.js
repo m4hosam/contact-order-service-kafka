@@ -102,11 +102,6 @@ async function handlePersonDeletedEvent(event) {
             });
             console.log(`Deleted orders for person with ID ${personId}`);
 
-            // Optionally, delete the person from your database if needed
-            // await prisma.person.delete({
-            //     where: { id: personId },
-            // });
-            // console.log(`Deleted person with ID ${personId}`);
         } else {
             console.log(`Person with ID ${personId} does not exist`);
         }

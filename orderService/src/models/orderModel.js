@@ -1,7 +1,6 @@
 // src/models/orderModel.js
 const { PrismaClient } = require('@prisma/client');
 const { getPersonInfo } = require('./getPersonFromContact');
-// const { sendEvent } = require('../kafka/kafkaProducer');
 
 const prisma = new PrismaClient();
 
@@ -78,8 +77,6 @@ exports.createOrder = async (orderData) => {
                 shipToID: false,
             },
         });
-        // // publish event to kafka
-        // await sendEvent('order.created', order);
         return order;
     } catch (error) {
         console.error('Error creating order:', error);
@@ -164,8 +161,6 @@ exports.updateOrder = async (orderId, orderData) => {
         },
     });
 
-    // publish modified event to kafka 
-    // await sendEvent('order.updated', updatedOrder);
 
     return updatedOrder;
 };
@@ -185,8 +180,7 @@ exports.deleteOrderById = async (orderId) => {
     if (!deletedOrder) {
         throw new Error(`Failed to delete order with id ${orderId}`);
     }
-    // Send event
-    // await sendEvent('order.deleted', { id: orderId });
+
     return orderToDelete;
 };
 
@@ -226,7 +220,5 @@ exports.patchOrder = async (orderId, updateData) => {
         },
     });
 
-    // publish modified event to kafka 
-    // await sendEvent('order.updated', patchedOrder);
     return patchedOrder;
 };
