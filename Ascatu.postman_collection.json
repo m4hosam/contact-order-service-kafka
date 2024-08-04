@@ -1,0 +1,407 @@
+{
+	"info": {
+		"_postman_id": "b478ba9d-b6a3-4a26-9dfe-e7ee8e0663c5",
+		"name": "Ascatu",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16229368"
+	},
+	"item": [
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "get orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create orders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"orderDate\": \"2021-07-18\",\r\n  \"soldToID\": \"66aff289ccabed4b47b798bc\",\r\n  \"billToID\": \"66aff289ccabed4b47b798bc\",\r\n  \"shipToID\": \"66aff289ccabed4b47b798bc\",\r\n    \"orderValue\": 125.5,\r\n  \"taxValue\": 10.1,\r\n  \"currencyCode\": \"CHF\",\r\n  \"items\": [\r\n    {\r\n      \"itemID\": \"0003\",\r\n      \"productID\": \"100440101\",\r\n      \"quantity\": 7,\r\n      \"itemPrice\": 25.5\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all orders",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/order",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "order by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/order/d62c363c-2b38-46de-ab45-22f7cd6ea4f1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"d62c363c-2b38-46de-ab45-22f7cd6ea4f1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "order update by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"orderDate\": \"2034-07-14\",\r\n  \"soldToID\": \"66aff0abccabed4b47b798bb\",\r\n  \"billToID\": \"66aff0abccabed4b47b798bb\",\r\n  \"shipToID\": \"66aff0abccabed4b47b798bb\",\r\n  \"orderValue\": 545.26,\r\n  \"taxValue\": 14.1,\r\n  \"currencyCode\": \"CHF\",\r\n  \"items\": [\r\n    {\r\n      \"itemID\": \"0002\",\r\n      \"productID\": \"100000101\",\r\n      \"quantity\": 6,\r\n      \"itemPrice\": 21.5\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/order/d62c363c-2b38-46de-ab45-22f7cd6ea4f1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"d62c363c-2b38-46de-ab45-22f7cd6ea4f1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "order by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/order/5cef0d72-6ac3-4803-b9b2-b0f3cdf875b4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"5cef0d72-6ac3-4803-b9b2-b0f3cdf875b4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "order by id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"orderValue\": 122.26,\r\n  \"taxValue\": 15.1,\r\n  \"currencyCode\": \"TUR\",\r\n  \"name\": \"sda\",\r\n  \"items\": [\r\n    {\r\n      \"itemID\": \"0003\",\r\n      \"productID\": \"100000104\",\r\n      \"quantity\": 7,\r\n      \"itemPrice\": 28.5\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/order/7be11a9b-5915-4d3b-819a-3bf86a7c06ef",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"7be11a9b-5915-4d3b-819a-3bf86a7c06ef"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Person",
+			"item": [
+				{
+					"name": "GetPerson",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/person",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"person"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Person",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"city\": \"Berlin\",\r\n  \"country\": \"Germany\",\r\n  \"extensionFields\": {},\r\n  \"firstName\": \"John\",\r\n  \"houseNumber\": \"42\",\r\n  \"lastName\": \"Doe\",\r\n  \"streetAddress\": \"Street\",\r\n  \"zip\": \"10115\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/person",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"person"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete All",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/person",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"person"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Person By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/person/66ad254f8a322f6c834c7bab",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"person",
+								"66ad254f8a322f6c834c7bab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Person By id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"city\": \"Berlin\",\r\n  \"country\": \"Germany\",\r\n  \"extensionFields\": {},\r\n  \"firstName\": \"John\",\r\n  \"houseNumber\": \"46\",\r\n  \"lastName\": \"Doe\",\r\n  \"streetAddress\": \"Street\",\r\n  \"zip\": \"10115\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/person/66aff0abccabed4b47b798bb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"person",
+								"66aff0abccabed4b47b798bb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Person By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/person/66aff0abccabed4b47b798bb",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"person",
+								"66aff0abccabed4b47b798bb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Person By id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"city\": \"fdgdfgdfg\",\r\n  \"country\": \"Turkey\",\r\n  \"extensionFields\": {},\r\n  \"firstName\": \"John\",\r\n  \"houseNumber\": \"42\",\r\n  \"id\": \"1060f9e4-be45-451f7c304254\",\r\n  \"lastName\": \"Doe\",\r\n  \"streetAddress\": \"Street\",\r\n  \"zip\": \"10115\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/person/66aa30d35bf5d2132784fe71",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"person",
+								"66aa30d35bf5d2132784fe71"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Person",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n//   \"city\": \"Berlin\",\r\n//   \"country\": \"Germany\",\r\n//   \"extensionFields\": {},\r\n//   \"firstName\": \"John\",\r\n//   \"houseNumber\": \"42\",\r\n//   \"id\": \"1060f9e4-be45-4516-bb71-5cd97c304254\",\r\n  \"lastName\": \"Doe\"\r\n//   \"streetAddress\": \"Street\",\r\n//   \"zip\": \"10115\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/person/search",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"person",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

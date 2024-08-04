@@ -3,8 +3,6 @@ cd /opt/bitnami/kafka/bin
 
 ./kafka-topics.sh --list --bootstrap-server kafka:9092
 
-./kafka-console-consumer.sh --bootstrap-server kafka:9092 --whitelist 'personevents-created|personevents-changed|personevents-deleted' --from-be
-ginning
 
 ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic personevents-created --from-beginning
 
@@ -17,3 +15,7 @@ ginning
 ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic orderevents-changed --from-beginning
 
 ./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic orderevents-deleted --from-beginning
+
+----------------------------------------------
+./kafka-console-consumer.sh --bootstrap-server kafka:9092 --whitelist 'personevents-created|personevents-changed|personevents-deleted' --from-beginning
+./kafka-console-consumer.sh --bootstrap-server kafka:9092 --whitelist 'orderevents-created|orderevents-changed|orderevents-deleted' --from-beginning
