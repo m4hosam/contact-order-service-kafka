@@ -1,7 +1,3 @@
-Sure, here's a sample README documentation for your project:
-
----
-
 # Order Service Project
 
 This project consists of multiple services including an order service, a contact service, Kafka, Zookeeper, PostgreSQL, and MongoDB. The services are containerized using Docker and orchestrated with Docker Compose.
