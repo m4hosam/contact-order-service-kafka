@@ -57,6 +57,6 @@ services:
       - KAFKA_BROKER=kafka:9092
     depends_on:
       - postgres
-      - contactservice
       - kafka
+      - contactservice
 

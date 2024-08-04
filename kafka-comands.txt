@@ -1,0 +1,16 @@
+docker exec -it container_id bash
+cd /opt/bitnami/kafka/bin
+
+./kafka-topics.sh --list --bootstrap-server kafka:9092
+
+./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic personevents-created --from-beginning
+
+./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic personevents-changed --from-beginning
+
+./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic personevents-deleted --from-beginning
+
+./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic orderevents-created --from-beginning
+
+./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic orderevents-changed --from-beginning
+
+./kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic orderevents-deleted --from-beginning
